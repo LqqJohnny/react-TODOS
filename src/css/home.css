@@ -1,0 +1,31 @@
+.complete,.redo,.delTodo{
+    float:right;
+}
+.redo,.delTodo{
+    background: rgb(177, 173, 177);
+    border-color: rgb(177, 173, 177);
+    margin-right: 2px;
+}
+.todoItem,.completeItem{
+    color:#2c8898;
+    width:70%;
+    margin:20px auto;
+    border-bottom: 1px solid #2c8898;
+    padding:5px ;
+}
+.completeItem{
+    border-bottom: 1px solid rgb(177, 173, 177);
+    color:rgb(177, 173, 177);
+}
+.addTodo{
+    width:100%;
+    text-align: right;
+}
+.addItem{
+    width: 70%;
+    margin: 20px auto;
+}
+.addItem input{
+    width:86%;
+    margin-right:2%;
+}
