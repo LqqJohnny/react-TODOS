@@ -10,26 +10,29 @@ class Home extends React.Component {
         this.state = {
             showAddForm : false
         }
+        // 绑定方法
+        this.toggleAdd = this.toggleAdd.bind(this);
     }
     toggleAdd(){
         this.refs.myInput.value="";
+        this.refs.myInput.focus();
         this.setState({"showAddForm":!this.state.showAddForm })
     }
-
+    enterAdd(dispatch,e){
+        e.persist(); // 需要 调用该方法 才能获取大原生 js event 对象
+        if(e.keyCode==13){
+            this.sureAdd(dispatch);
+        }
+    }
+    sureAdd(dispatch){
+        dispatch(addTodos(this.refs.myInput.value));
+        this.setState({"showAddForm":false});
+    }
     render() {
         var {dispatch , todos} = this.props;
         var list ;
         var addTodo;
-        var sureAdd = function(){
-            dispatch(addTodos(this.refs.myInput.value));
-            this.setState({"showAddForm":false});
-        }
-        var  enterAdd = function(e){
-            e.persist(); // 需要 调用该方法 才能获取大原生 js event 对象
-            if(e.keyCode==13){
-                sureAdd.bind(this)();
-            }
-        }
+
         todos = todos.filter(function(val,i){
             return !val.complete;
         })
@@ -47,14 +50,14 @@ class Home extends React.Component {
 
         return (
             <div>
-                <div className="addTodo"><button onClick={this.toggleAdd.bind(this)}>{this.state.showAddForm?"取消":"添加"}</button></div>
+                <div className="addTodo"><button onClick={this.toggleAdd}>{this.state.showAddForm?"取消":"添加"}</button></div>
                 <div className="todoList">
                       {list}
                 </div>
                 <div className="addTodo" style={{display: this.state.showAddForm?'block':'none'}}>
                     <div className="addItem">
-                        <input type="text" id="myInput" ref="myInput" onKeyDown={enterAdd.bind(this)} />
-                        <button className="complete" onClick={sureAdd.bind(this)}>确定</button>
+                        <input type="text" id="myInput" ref="myInput" onKeyDown={this.enterAdd.bind(this,dispatch)} />
+                        <button className="complete" onClick={this.sureAdd.bind(this,dispatch)}>确定</button>
                     </div>
                 </div>
             </div>
